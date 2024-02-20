@@ -1,0 +1,5 @@
+<div class="menu__wrap">
+  <button mat-icon-button>add</button>
+  <button mat-icon-button (click)="removeSelected()" [disabled]="(hasSelected$ | async)===false">remove
+  </button>
+</div>
