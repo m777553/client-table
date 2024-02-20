@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientDataService } from '../../services/client-data.service';
 import { Observable, take } from 'rxjs';
@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
   selector: 'inum-client-menu',
   templateUrl: './client-menu.component.html',
   styleUrls: ['./client-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClientMenuComponent {
   hasSelected$: Observable<boolean> = this._clientService.selectedUsers.pipe(
@@ -19,6 +20,7 @@ export class ClientMenuComponent {
 
   removeSelected() {
     this._matDialog.open(ConfirmDialogComponent, {
+      width: ConfirmDialogComponent.width,
       data: { selectedCount: this._clientService.selectedUsers.value.length },
     })
       .afterClosed().subscribe(result => {

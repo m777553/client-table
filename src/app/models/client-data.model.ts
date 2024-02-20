@@ -1,5 +1,5 @@
 export interface User {
-  select: boolean;
+  select?: boolean;
   name: string;
   surname: string;
   email: string;
