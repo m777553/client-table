@@ -5,3 +5,8 @@ export interface User {
   email: string;
   phone: string;
 }
+
+export interface SelectionInfo {
+  isIndeterminate: boolean;
+  isAllSelected: boolean;
+}

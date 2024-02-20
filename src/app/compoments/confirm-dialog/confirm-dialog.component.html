@@ -1,0 +1,12 @@
+<div class="dialog__wrap">
+  <h1 class="dialog__title" mat-dialog-title>Удаление строк</h1>
+  <div class="dialog__description">
+    {{title}}
+    <ng-container *ngIf="data.selectedCount>1"> ({{data.selectedCount}})</ng-container>
+    ?
+  </div>
+  <div class="dialog__actions-wrap">
+    <button mat-button type="button" mat-dialog-close>Отмена</button>
+    <button mat-button color="primary" type="submit">Удалить</button>
+  </div>
+</div>
