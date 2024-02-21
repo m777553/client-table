@@ -1,0 +1,5 @@
+@import '../colors';
+
+.mat-mdc-text-field-wrapper, .mat-mdc-text-field-wrapper:hover, .mdc-text-field--filled, .mdc-text-field--invalid {
+  background-color: $white !important;
+}

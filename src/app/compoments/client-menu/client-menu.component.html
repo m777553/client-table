@@ -1,6 +1,9 @@
 <div class="menu__wrap">
-  <button mat-icon-button class="menu__button menu__button--add"><mat-icon svgIcon="add"></mat-icon></button>
-  <button mat-icon-button class="menu__button menu__button--remove" (click)="removeSelected()" [disabled]="(hasSelected$ | async)===false">
+  <button mat-icon-button class="menu__button menu__button--add" (click)="addClient()">
+    <mat-icon svgIcon="add"></mat-icon>
+  </button>
+  <button mat-icon-button class="menu__button menu__button--remove" (click)="removeClient()"
+          [disabled]="(hasSelected$ | async)===false">
     <mat-icon svgIcon="remove"></mat-icon>
   </button>
 </div>

@@ -1,0 +1,57 @@
+<div class="dialog__wrap">
+  <h1 class="dialog__title" mat-dialog-title>Новый клиент</h1>
+  <form class="dialog__form" [formGroup]="clientForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input matInput type="text" formControlName="name">
+      <mat-error *ngIf="clientForm.controls['name'].touched && !clientForm.controls['name'].value">
+        Это поле обязательное
+      </mat-error>
+      <mat-error
+        *ngIf="clientForm.controls['name'].value && clientForm.controls['name'].errors && clientForm.controls['name'].errors['minlength']">
+        Минимальное количество символов: 2
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Фамилия</mat-label>
+      <input matInput type="text" formControlName="surname">
+      <mat-error
+        *ngIf="clientForm.controls['surname'].touched && !clientForm.controls['surname'].value">Это
+        поле обязательное
+      </mat-error>
+      <mat-error
+        *ngIf="clientForm.controls['surname'].value && clientForm.controls['surname'].errors && clientForm.controls['surname'].errors['minlength']">
+        Минимальное количество символов: 2
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Электронная почта</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-error
+        *ngIf="clientForm.controls['email'].touched && !clientForm.controls['email'].value">Это поле
+        обязательное
+      </mat-error>
+      <mat-error
+        *ngIf="clientForm.controls['email'].value && clientForm.controls['email'].errors && clientForm.controls['email'].errors['emailPatternInvalid']">
+        Некорректный email
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" hideRequiredMarker>
+      <mat-label>Телефон</mat-label>
+      <input matInput type="tel" formControlName="phone">
+      <mat-error
+        *ngIf="clientForm.controls['phone'].value &&  clientForm.controls['phone'].errors &&  clientForm.controls['phone'].errors['phonePatternInvalid']">
+        Номер в формате +79999999999
+      </mat-error>
+    </mat-form-field>
+  </form>
+  <div class="dialog__actions-wrap">
+    <button mat-button class="dialog__button" type="button" (click)="onCancel()">Отмена</button>
+    <button mat-button class="dialog__button" color="primary" type="submit"
+            [disabled]="clientForm.invalid" (click)="onConfirm()">Сохранить
+    </button>
+  </div>
+</div>
