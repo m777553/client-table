@@ -1,0 +1,13 @@
+@import '../colors';
+
+.mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background,
+.mat-mdc-checkbox[ng-reflect-indeterminate="true"] .mdc-checkbox__background
+{
+  background-color: $default-blue !important;
+  border-color: $default-blue !important;
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked) .mdc-checkbox__background {
+  background-color: $white !important;
+  border-color: $default-blue !important;
+}

@@ -1,0 +1,13 @@
+.table__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+}
+
+.table__wrap {
+  max-height: 77vh;
+  overflow: auto;
+  border-radius: 20px;
+  scrollbar-width: thin;
+}

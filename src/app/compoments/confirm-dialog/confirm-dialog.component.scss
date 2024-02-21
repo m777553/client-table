@@ -1,0 +1,16 @@
+
+.dialog__title {
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.dialog__actions-wrap {
+  margin-top: 50px;
+  align-self: flex-end;
+}
+
+.dialog__wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
