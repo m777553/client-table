@@ -72,10 +72,17 @@ export class ClientDataService {
     // id пользователей с сервера не приходит поэтому отправляется пользователь целиком, что не
     // очень хорошо но так как сервер не поддерживает удаление, то просто удаляем их из таблицы
 
-
     const updatedUsers = this._dataSource.value.filter(user => !users.includes(user));
     this._dataSource.next(updatedUsers);
     // this.selectedUsers.next([]);
+    return of(true);
+  }
+  addClient(user: User): Observable<boolean> {
+    //здесь должен быть запрос на сервер для удаления выбранных пользователей
+    // return this._http.put<User>(this._API_URL, {body: users})
+
+    const updatedUsers = [...this._dataSource.value, user];
+    this._dataSource.next(updatedUsers);
     return of(true);
   }
 }

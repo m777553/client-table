@@ -1,12 +1,9 @@
 @import '../colors';
 .mat-mdc-icon-button.mat-mdc-button-base {
   color: $dark-blue;
-  width: 35px;
-  height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px 0 0;
   width: 40px;
   height: 40px;
   padding: 0;
@@ -36,4 +33,47 @@
 
 .mat-mdc-icon-button.cdk-program-focused .mat-mdc-button-persistent-ripple::before {
   opacity: 0;
+}
+
+.mat-mdc-button:not(:disabled) {
+  color: $default-blue;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.mdc-button:hover {
+  background: $hover-blue-light;
+}
+
+.mdc-button:focus {
+  background: $active-blue-light;
+}
+
+//
+.mat-mdc-button.mat-primary:not(:disabled) {
+  color: $white;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 20px;
+  padding: 20px;
+  background: $default-blue;
+}
+
+.mat-mdc-button.mat-primary:disabled {
+  color: $white;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 20px;
+  padding: 20px;
+  background: $disabled-blue;
+}
+
+.mdc-button.mat-primary:hover {
+  background: $hover-blue;
+}
+
+.mdc-button.mat-primary:focus {
+  background: $active-blue;
 }

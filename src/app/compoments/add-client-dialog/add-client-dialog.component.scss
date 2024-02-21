@@ -14,7 +14,10 @@
   flex-direction: column;
   justify-content: space-between;
 }
-
+.dialog__form {
+  display: flex;
+  flex-direction: column;
+}
 .dialog__button{
   margin-left: 10px;
 }
