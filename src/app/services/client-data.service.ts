@@ -1,50 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, pluck, switchMap } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, pluck } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { User } from '../models/client-data.model';
-
-const MOCK_USERS: { users: User[] } = {
-  'users': [{
-    'name': 'Александр', 'surname': 'Петров', 'email': 'petrov@mail.ru', 'phone': '+79061856195',
-  }, {
-    'name': 'Павел', 'surname': 'Прилучный', 'email': 'ppl98@mail.ru', 'phone': '+79891456090',
-  }, {
-    'name': 'Иван', 'surname': 'Охлобыстин', 'email': 'iohl_990@mail.ru', 'phone': '+79053856195',
-  }, {
-    'name': 'Марина', 'surname': 'Александрова', 'email': 'malexan21@mail.ru',
-    'phone': '+79052206950',
-  }, { 'name': 'Юрий', 'surname': 'Борисов', 'email': 'borisov@gmail.com', 'phone': '' },
-    {
-      'name': 'Александр', 'surname': 'Петров', 'email': 'petrov@mail.ru', 'phone': '+79061856195',
-    }, {
-      'name': 'Павел', 'surname': 'Прилучный', 'email': 'ppl98@mail.ru', 'phone': '+79891456090',
-    }, {
-      'name': 'Иван', 'surname': 'Охлобыстин', 'email': 'iohl_990@mail.ru', 'phone': '+79053856195',
-    }, {
-      'name': 'Марина', 'surname': 'Александрова', 'email': 'malexan21@mail.ru',
-      'phone': '+79052206950',
-    }, {
-      'name': 'Александр', 'surname': 'Петров', 'email': 'petrov@mail.ru', 'phone': '+79061856195',
-    }, {
-      'name': 'Павел', 'surname': 'Прилучный', 'email': 'ppl98@mail.ru', 'phone': '+79891456090',
-    }, {
-      'name': 'Иван', 'surname': 'Охлобыстин', 'email': 'iohl_990@mail.ru', 'phone': '+79053856195',
-    }, {
-      'name': 'Марина', 'surname': 'Александрова', 'email': 'malexan21@mail.ru',
-      'phone': '+79052206950',
-    }, {
-      'name': 'Александр', 'surname': 'Петров', 'email': 'petrov@mail.ru', 'phone': '+79061856195',
-    }, {
-      'name': 'Павел', 'surname': 'Прилучный', 'email': 'ppl98@mail.ru', 'phone': '+79891456090',
-    }, {
-      'name': 'Иван', 'surname': 'Охлобыстин', 'email': 'iohl_990@mail.ru', 'phone': '+79053856195',
-    }, {
-      'name': 'Марина', 'surname': 'Александрова', 'email': 'malexan21@mail.ru',
-      'phone': '+79052206950',
-    },
-  ],
-};
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -55,13 +14,22 @@ export class ClientDataService {
   private _dataSource = new BehaviorSubject<User[]>([]);
   dataSource$ = this._dataSource.asObservable();
 
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private _localStorage: LocalStorageService) {
   }
 
 
   getUsers(): Observable<User[]> {
     return this._http.get<{ users: User[] }>(this._API_URL).pipe(
       pluck('users'),
+      map(users=>{
+        if (this._localStorage.getStorage()){
+          const data = this._getLocalStorageIds();
+          for (let key in data){
+            users.push(JSON.parse(key));
+          }
+        }
+        return users;
+      }),
       tap(users => this._dataSource.next(users)),
     );
   }
@@ -74,7 +42,7 @@ export class ClientDataService {
 
     const updatedUsers = this._dataSource.value.filter(user => !users.includes(user));
     this._dataSource.next(updatedUsers);
-    // this.selectedUsers.next([]);
+    users.forEach(user => this._removeLocalStorage(user));
     return of(true);
   }
   addClient(user: User): Observable<boolean> {
@@ -83,6 +51,33 @@ export class ClientDataService {
 
     const updatedUsers = [...this._dataSource.value, user];
     this._dataSource.next(updatedUsers);
+    this._setLocalStorage(user);
     return of(true);
+  }
+
+  // save to storage
+  private _setLocalStorage(user: User) {
+    //здесь должно быть id пользователя, но так как его нет, то используется весь объект
+    const userId= JSON.stringify(user);
+    this._localStorage.saveData(userId, 'true');
+  }
+
+  // remove from storage
+  private _removeLocalStorage(user: User) {
+    const userId= JSON.stringify(user);
+    this._localStorage.removeData(userId);
+  }
+
+  private _getLocalStorageIds(): Record<string, string> {
+    const data: Record<string, string> = {};
+
+    Object.keys(this._localStorage.getStorage()).forEach((item) => {
+      if (item.includes('{"name"')) {
+        // @ts-ignore
+        data[item] = this._localStorage.getData(item);
+      }
+    });
+
+    return data;
   }
 }
